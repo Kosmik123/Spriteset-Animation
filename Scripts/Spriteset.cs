@@ -1,19 +1,10 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
 namespace Bipolar.SpritesetAnimation
 {
-    [CreateAssetMenu]
-    public class Spriteset : ScriptableObject
+    public abstract class Spriteset : ScriptableObject
     {
-        [SerializeField]
-        private Sprite[] sprites;
-        public IReadOnlyList<Sprite> Sprites => sprites;
-        public int Count => sprites.Length;
-
         [SerializeField, Min(1)]
-        [FormerlySerializedAs("columnsCount")]
         private int columnCount = 1;
         public int ColumnCount
         {
@@ -25,6 +16,9 @@ namespace Bipolar.SpritesetAnimation
             }
         }
 
-        public int RowCount => (Count + ColumnCount - 1) / columnCount;
+        public abstract int Count { get; }
+        public abstract int RowCount { get; }
+
+        public abstract Sprite this[int index] { get; }
     }
 }

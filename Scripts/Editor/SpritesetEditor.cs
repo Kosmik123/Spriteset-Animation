@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Bipolar.SpritesetAnimation.Editor
 {
-    [CustomEditor(typeof(Spriteset))]
+    [CustomEditor(typeof(MultipleSpriteSpriteset))]
     public class SpritesetEditor : UnityEditor.Editor
     {
         private const string ColumnCountPropertyName = "columnCount";
