@@ -14,6 +14,9 @@ namespace Bipolar.SpritesetAnimation
         private Texture2D texture;
         private Sprite[] sprites;
 
+        [SerializeField, Min(0.001f)]
+        private float pixelsPerUnit = 100;
+
         public override Sprite this[int index]
         {
             get
@@ -26,6 +29,15 @@ namespace Bipolar.SpritesetAnimation
 
         public override int RowCount => rowCount;
         public override int Count => RowCount * ColumnCount;
+
+        private void OnEnable()
+        {
+            CreateSpritesArray();
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+            UnityEditor.EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+#endif
+        }
 
         [ContextMenu("Create")]
         private void CreateSpritesArray()
@@ -41,9 +53,26 @@ namespace Bipolar.SpritesetAnimation
                 {
                     int index = j * ColumnCount + i;
                     var rect = new Rect(i * spriteWidth, j * spriteHeight, spriteWidth, spriteHeight);
-                    sprites[index] = Sprite.Create(texture, rect, Center);
+                    sprites[index] = Sprite.Create(texture, rect, Center, pixelsPerUnit);
                 }
             }
         }
+
+        private void OnValidate()
+        {
+            CreateSpritesArray();
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+            UnityEditor.EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+#endif
+        }
+
+#if UNITY_EDITOR
+        private void OnPlayModeStateChanged(UnityEditor.PlayModeStateChange change)
+        {
+            if (change == UnityEditor.PlayModeStateChange.EnteredPlayMode || change == UnityEditor.PlayModeStateChange.EnteredEditMode)
+                CreateSpritesArray();
+        }
+#endif
     }
 }
