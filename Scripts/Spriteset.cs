@@ -21,5 +21,4 @@ namespace Bipolar.SpritesetAnimation
 
         public abstract Sprite this[int index] { get; }
     }
-
 }

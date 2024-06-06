@@ -2,8 +2,7 @@
 
 namespace Bipolar.SpritesetAnimation
 {
-
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = CreateAssetPath.Root + "Multiple Sprite Spriteset")]
     public class MultipleSpriteSpriteset : Spriteset
     {
         [SerializeField]

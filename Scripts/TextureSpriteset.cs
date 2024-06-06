@@ -24,7 +24,7 @@ namespace Bipolar.SpritesetAnimation
         }
     }
 
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = CreateAssetPath.Root + "Texture Spriteset")]
     public class TextureSpriteset : Spriteset
     {
         private static readonly Vector2 Center = new Vector2 (0.5f, 0.5f);
