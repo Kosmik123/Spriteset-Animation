@@ -2,6 +2,28 @@
 
 namespace Bipolar.SpritesetAnimation
 {
+    [System.Serializable]
+    public struct SpriteSettings
+    {
+        [Min(0.001f)]
+        public float pixelsPerUnit;
+
+        public SpriteMeshType meshType;
+
+        [Range(0, 32)]
+        public uint extrudeEdges;
+
+        public bool generatePhysicsShape;
+
+        public SpriteSettings(float pixelsPerUnit, SpriteMeshType meshType, uint extrudeEdges, bool generatePhysicsShape)
+        {
+            this.pixelsPerUnit = pixelsPerUnit;
+            this.meshType = meshType;
+            this.extrudeEdges = extrudeEdges;
+            this.generatePhysicsShape = generatePhysicsShape;
+        }
+    }
+
     [CreateAssetMenu]
     public class TextureSpriteset : Spriteset
     {
@@ -14,8 +36,8 @@ namespace Bipolar.SpritesetAnimation
         private Texture2D texture;
         private Sprite[] sprites;
 
-        [SerializeField, Min(0.001f)]
-        private float pixelsPerUnit = 100;
+        [SerializeField]
+        private SpriteSettings spriteSettings = new SpriteSettings(100, SpriteMeshType.Tight, 1, true);
 
         public override Sprite this[int index]
         {
@@ -53,7 +75,8 @@ namespace Bipolar.SpritesetAnimation
                 {
                     int index = (rowCount - 1 - j) * ColumnCount + i;
                     var rect = new Rect(i * spriteWidth, j * spriteHeight, spriteWidth, spriteHeight);
-                    sprites[index] = Sprite.Create(texture, rect, Center, pixelsPerUnit);
+                    sprites[index] = Sprite.Create(texture, rect, Center, spriteSettings.pixelsPerUnit, 
+                        spriteSettings.extrudeEdges, spriteSettings.meshType, Vector4.zero, spriteSettings.generatePhysicsShape);
                 }
             }
         }

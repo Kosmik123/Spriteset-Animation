@@ -19,7 +19,6 @@ namespace Bipolar.SpritesetAnimation.Editor
             }
         }
 
-
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
@@ -68,7 +67,5 @@ namespace Bipolar.SpritesetAnimation.Editor
             if (previewTexture)
                 EditorGUI.DrawTextureTransparent(previewRect, previewTexture);
         }
-
     }
-
 }
