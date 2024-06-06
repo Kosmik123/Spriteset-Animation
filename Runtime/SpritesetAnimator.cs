@@ -4,7 +4,7 @@ namespace Bipolar.SpritesetAnimation
 {
     public class SpritesetAnimator : MonoBehaviour
     {
-        public const int idleAnimationSpeed = 4;
+        public const float IdleAnimationSpeed = 4;
 
         [Header("Settings")]
         [SerializeField]
@@ -18,7 +18,7 @@ namespace Bipolar.SpritesetAnimation
         [Header("Properties")]
         [SerializeField, Min(0)]
         [Tooltip("Speed of animation [in Frames per Second].")]
-        private float animationSpeed = 4;
+        private float animationSpeed = IdleAnimationSpeed;
         public float AnimationSpeed
         {
             get => animationSpeed;
