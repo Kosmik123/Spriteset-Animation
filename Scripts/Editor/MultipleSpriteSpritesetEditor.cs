@@ -8,6 +8,30 @@ namespace Bipolar.SpritesetAnimation.Editor
     {
         public const string ColumnCountPropertyName = "columnCount";
 
+    }
+
+    [CustomEditor(typeof(MultipleSpriteSpriteset))]
+    public class MultipleSpriteSpritesetEditor : UnityEditor.Editor
+    {
+        private const string SpritesPropertyName = "sprites";
+
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            var spritesProperty = serializedObject.FindProperty(SpritesPropertyName);
+
+            var columnsProperty = serializedObject.FindProperty(SpritesetEditorUtility.ColumnCountPropertyName);
+            int columnCount = columnsProperty.intValue;
+            int spritesCount = spritesProperty.arraySize;
+
+            EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
+            bool hasChanged = DrawSpritesGrid(columnCount, spritesCount, spritesProperty.GetArrayElementAtIndex);
+            if (hasChanged)
+                serializedObject.ApplyModifiedProperties();
+            
+        }
+
+
         public static bool DrawSpritesGrid(int columnCount, int spritesCount, Func<int, SerializedProperty> getSpriteFunc)
         {
             bool hasChanged = false;
@@ -31,28 +55,6 @@ namespace Bipolar.SpritesetAnimation.Editor
 
             return hasChanged;
         }
-    }
-
-    [CustomEditor(typeof(MultipleSpriteSpriteset))]
-    public class MultipleSpriteSpritesetEditor : UnityEditor.Editor
-    {
-        private const string SpritesPropertyName = "sprites";
-
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-            var spritesProperty = serializedObject.FindProperty(SpritesPropertyName);
-
-            var columnsProperty = serializedObject.FindProperty(SpritesetEditorUtility.ColumnCountPropertyName);
-            int columnCount = columnsProperty.intValue;
-            int spritesCount = spritesProperty.arraySize;
-
-            EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
-            bool hasChanged = SpritesetEditorUtility.DrawSpritesGrid(columnCount, spritesCount, spritesProperty.GetArrayElementAtIndex);
-            if (hasChanged)
-                serializedObject.ApplyModifiedProperties();
-        }
-
 
         public override bool HasPreviewGUI() => true;
 

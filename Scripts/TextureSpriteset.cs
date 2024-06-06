@@ -51,7 +51,7 @@ namespace Bipolar.SpritesetAnimation
             {
                 for (int i = 0; i < ColumnCount; i++)
                 {
-                    int index = j * ColumnCount + i;
+                    int index = (rowCount - 1 - j) * ColumnCount + i;
                     var rect = new Rect(i * spriteWidth, j * spriteHeight, spriteWidth, spriteHeight);
                     sprites[index] = Sprite.Create(texture, rect, Center, pixelsPerUnit);
                 }
