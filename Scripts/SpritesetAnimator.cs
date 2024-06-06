@@ -8,13 +8,16 @@ namespace Bipolar.SpritesetAnimation
 
         [Header("Settings")]
         [SerializeField]
+        [Tooltip("Sprite Renderer whose sprite will be animated.")]
         private SpriteRenderer spriteRenderer;
 
         [SerializeField]
+        [Tooltip("Spriteset for animation.")]
         private Spriteset spriteset;
 
         [Header("Properties")]
         [SerializeField, Min(0)]
+        [Tooltip("Speed of animation [in Frames per Second].")]
         private float animationSpeed = 4;
         public float AnimationSpeed
         {
@@ -23,6 +26,7 @@ namespace Bipolar.SpritesetAnimation
         }
 
         [SerializeField]
+        [Tooltip("If true: frames will change in reveresed order.")]
         private bool isReversed;
         public bool IsReversed
         {
@@ -31,6 +35,7 @@ namespace Bipolar.SpritesetAnimation
         }
 
         [SerializeField]
+        [Tooltip("Current row in spriteset from which frames are taken.")]
         private int currentAnimationIndex;
         public int CurrentAnimationIndex
         {
@@ -47,6 +52,7 @@ namespace Bipolar.SpritesetAnimation
         }
 
         [SerializeField]
+        [Tooltip("By default sequence has lenght (numbe of frames) equal to spriteset columns count. If this value is positive, it will be taken as animation sequence lenght")]
         private int overrideSequenceLength;
         public int OverrideSequenceLength
         {
@@ -55,6 +61,7 @@ namespace Bipolar.SpritesetAnimation
         }
 
         [SerializeField]
+        [Tooltip("By default sprite in column zero is treated as starting animation frame. Use this field to modify this value.")]
         private int frameIndexOffset;
         public int FrameIndexOffset
         {
@@ -63,6 +70,7 @@ namespace Bipolar.SpritesetAnimation
         }
 
         [SerializeField]
+        [Tooltip("This value is incremented (or decremented) while animating frames.")]
 #if NAUGHTY_ATTRIBUTES
         [NaughtyAttributes.ReadOnly]
 #endif
