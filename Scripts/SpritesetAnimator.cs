@@ -26,7 +26,7 @@ namespace Bipolar.SpritesetAnimation
         }
 
         [SerializeField]
-        [Tooltip("If true: frames will change in reveresed order.")]
+        [Tooltip("If true: frames will change in reversed order.")]
         private bool isReversed;
         public bool IsReversed
         {
@@ -52,7 +52,7 @@ namespace Bipolar.SpritesetAnimation
         }
 
         [SerializeField]
-        [Tooltip("By default sequence has lenght (numbe of frames) equal to spriteset columns count. If this value is positive, it will be taken as animation sequence lenght")]
+        [Tooltip("By default sequence has length (number of frames) equal to spriteset columns count. If this value is positive, it will be taken as animation sequence lenght instead.")]
         private int overrideSequenceLength;
         public int OverrideSequenceLength
         {
