@@ -1,31 +1,22 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace Bipolar.SpritesetAnimation.Editor
 {
-    [CustomEditor(typeof(MultipleSpriteSpriteset))]
-    public class SpritesetEditor : UnityEditor.Editor
+    public static class SpritesetEditorUtility
     {
-        private const string ColumnCountPropertyName = "columnCount";
-        private const string SpritesPropertyName = "sprites";
+        public const string ColumnCountPropertyName = "columnCount";
 
-        public override void OnInspectorGUI()
+        public static bool DrawSpritesGrid(int columnCount, int spritesCount, Func<int, SerializedProperty> getSpriteFunc)
         {
-            base.OnInspectorGUI();
-            var spritesProperty = serializedObject.FindProperty(SpritesPropertyName);
-
-            var columnsProperty = serializedObject.FindProperty(ColumnCountPropertyName);
-            int columnCount = columnsProperty.intValue;
-            int spritesCount = spritesProperty.arraySize;
-
-            EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
             bool hasChanged = false;
             for (int rowIndex = 0, spriteIndex = 0; spriteIndex < spritesCount; rowIndex++)
             {
                 EditorGUILayout.BeginHorizontal();
                 for (int columnIndex = 0; columnIndex < columnCount && spriteIndex < spritesCount; columnIndex++, spriteIndex++)
                 {
-                    var spriteProperty = spritesProperty.GetArrayElementAtIndex(spriteIndex);
+                    var spriteProperty = getSpriteFunc(spriteIndex);
                     var sprite = EditorGUILayout.ObjectField(GUIContent.none,
                         spriteProperty.objectReferenceValue, typeof(Sprite), allowSceneObjects: false, GUILayout.Width(66));
                     if (sprite != spriteProperty.objectReferenceValue)
@@ -37,9 +28,31 @@ namespace Bipolar.SpritesetAnimation.Editor
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.Space(EditorGUIUtility.standardVerticalSpacing);
             }
+
+            return hasChanged;
+        }
+    }
+
+    [CustomEditor(typeof(MultipleSpriteSpriteset))]
+    public class MultipleSpriteSpritesetEditor : UnityEditor.Editor
+    {
+        private const string SpritesPropertyName = "sprites";
+
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            var spritesProperty = serializedObject.FindProperty(SpritesPropertyName);
+
+            var columnsProperty = serializedObject.FindProperty(SpritesetEditorUtility.ColumnCountPropertyName);
+            int columnCount = columnsProperty.intValue;
+            int spritesCount = spritesProperty.arraySize;
+
+            EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
+            bool hasChanged = SpritesetEditorUtility.DrawSpritesGrid(columnCount, spritesCount, spritesProperty.GetArrayElementAtIndex);
             if (hasChanged)
                 serializedObject.ApplyModifiedProperties();
         }
+
 
         public override bool HasPreviewGUI() => true;
 
