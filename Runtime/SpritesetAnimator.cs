@@ -52,7 +52,7 @@ namespace Bipolar.SpritesetAnimation
         }
 
         [SerializeField]
-        [Tooltip("By default sequence has length (number of frames) equal to spriteset columns count. If this value is positive, it will be taken as animation sequence lenght instead.")]
+        [Tooltip("By default sequence has length (number of frames) equal to spriteset columns count. If this value is positive, it will be taken as animation sequence length instead.")]
         private int overrideSequenceLength;
         public int OverrideSequenceLength
         {
