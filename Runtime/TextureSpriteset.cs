@@ -14,14 +14,6 @@ namespace Bipolar.SpritesetAnimation
         public uint extrudeEdges;
 
         public bool generatePhysicsShape;
-
-        public SpriteSettings(float pixelsPerUnit, SpriteMeshType meshType, uint extrudeEdges, bool generatePhysicsShape)
-        {
-            this.pixelsPerUnit = pixelsPerUnit;
-            this.meshType = meshType;
-            this.extrudeEdges = extrudeEdges;
-            this.generatePhysicsShape = generatePhysicsShape;
-        }
     }
 
     [CreateAssetMenu(menuName = CreateAssetPath.Root + "Texture Spriteset")]
@@ -37,7 +29,13 @@ namespace Bipolar.SpritesetAnimation
         private Sprite[] sprites;
 
         [SerializeField]
-        private SpriteSettings spriteSettings = new SpriteSettings(100, SpriteMeshType.Tight, 1, true);
+        private SpriteSettings spriteSettings = new SpriteSettings
+        {
+            pixelsPerUnit = 100,
+            meshType = SpriteMeshType.Tight,
+            extrudeEdges = 1,
+            generatePhysicsShape = true,
+        };
 
         public override Sprite this[int index]
         {
