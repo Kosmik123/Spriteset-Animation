@@ -149,6 +149,7 @@ namespace Bipolar.SpritesetAnimation
 		public void PlayAnimationOnce(System.Action onFinished = null)
 		{
 			isAnimating = false;
+			StopAllCoroutines();
 			StartCoroutine(PlayAnimationOnceCo(onFinished));
 		}
 
@@ -167,7 +168,6 @@ namespace Bipolar.SpritesetAnimation
 			while (true)
 			{
 				yield return wait;
-				animationTimer -= 1;
 				int indexChange = isReversed ? -1 : 1;
 				baseFrameIndex += indexChange;
 				RefreshSprite();
