@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace Bipolar.SpritesetAnimation.Editor
 {
-    [CustomEditor(typeof(TextureSpriteset))]
+
+	[CustomEditor(typeof(TextureSpriteset))]
     public class TextureSpritesetEditor : UnityEditor.Editor
     {
         public const string rowCountPropertyName = "rowCount";
@@ -36,7 +37,7 @@ namespace Bipolar.SpritesetAnimation.Editor
                 for (int i = 0; i < columnCount; i++)
                 {
                     int index = j * columnCount + i;
-                    EditorGUILayout.ObjectField(GUIContent.none, Spriteset[index], typeof(Sprite), allowSceneObjects: true, GUILayout.Width(66));
+                    EditorGUILayout.ObjectField(GUIContent.none, Spriteset[index][0], typeof(Sprite), allowSceneObjects: true, GUILayout.Width(66));
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.Space(EditorGUIUtility.standardVerticalSpacing);
@@ -60,7 +61,7 @@ namespace Bipolar.SpritesetAnimation.Editor
             if (previewFrameIndex != frameIndex)
             {
                 previewFrameIndex = frameIndex;
-                var sprite = Spriteset[previewFrameIndex];
+                var sprite = Spriteset[previewFrameIndex][0];
                 previewTexture = AssetPreview.GetAssetPreview(sprite);
             }
 

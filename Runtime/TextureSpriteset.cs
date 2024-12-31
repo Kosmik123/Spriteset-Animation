@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Bipolar.SpritesetAnimation
 {
@@ -17,9 +18,9 @@ namespace Bipolar.SpritesetAnimation
     }
 
     [CreateAssetMenu(menuName = CreateAssetPath.Root + "Texture Spriteset")]
-    public class TextureSpriteset : Spriteset
+	public class TextureSpriteset : Spriteset
     {
-        private static readonly Vector2 Center = new Vector2 (0.5f, 0.5f);
+		private static readonly Vector2 Center = new Vector2 (0.5f, 0.5f);
 
         [SerializeField, Min(1)]
         private int rowCount = 1;
@@ -37,19 +38,19 @@ namespace Bipolar.SpritesetAnimation
             generatePhysicsShape = true,
         };
 
-        public override Sprite this[int index]
+        public override IReadOnlyList<Sprite> this[int index]
         {
             get
             {
                 if (sprites == null)
                     CreateSpritesArray();
-                return sprites[index];
+                return sprites;
             }
         }
 
         public override int RowCount => rowCount;
-        public override int Count => RowCount * ColumnCount;
-
+		public int Count => 12;
+        
         private void OnEnable()
         {
             CreateSpritesArray();
@@ -94,6 +95,11 @@ namespace Bipolar.SpritesetAnimation
             if (change == UnityEditor.PlayModeStateChange.EnteredPlayMode || change == UnityEditor.PlayModeStateChange.EnteredEditMode)
                 CreateSpritesArray();
         }
+
+		public override int GetFramesCount(int rowIndex)
+		{
+			throw new System.NotImplementedException();
+		}
 #endif
-    }
+	}
 }

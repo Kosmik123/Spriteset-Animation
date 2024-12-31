@@ -15,6 +15,14 @@ namespace Bipolar.SpritesetAnimation
 		[SerializeField]
 		[Tooltip("Spriteset for animation.")]
 		private Spriteset spriteset;
+		public Spriteset Spriteset
+		{
+			get => spriteset;
+			set
+			{
+				spriteset = value;
+			}
+		}
 
 		[Header("Properties")]
 		[SerializeField]
@@ -95,15 +103,16 @@ namespace Bipolar.SpritesetAnimation
 		}
 
 		public int CurrentFrameIndex => baseFrameIndex + frameIndexOffset;
-		public int SpriteIndex => currentAnimationIndex * spriteset.ColumnCount + CurrentFrameIndex;
 
 		public int CurrentSequenceLength => GetSequenceLength(currentAnimationIndex);
 
 		private int GetSequenceLength(int animationIndex)
 		{
-			return overrideSequenceLength > 0
-				? Mathf.Min(overrideSequenceLength, spriteset.Count - animationIndex * spriteset.ColumnCount)
-				: spriteset.ColumnCount;
+			int columnsCount = spriteset.GetFramesCount(animationIndex);
+			if (overrideSequenceLength <= 0)
+				return columnsCount;
+
+			return Mathf.Min(overrideSequenceLength, columnsCount);
 		}
 
 		public int RowCount => spriteset ? spriteset.RowCount : 0;
@@ -143,7 +152,7 @@ namespace Bipolar.SpritesetAnimation
 		public void RefreshSprite()
 		{
 			if (spriteRenderer && spriteset)
-				spriteRenderer.sprite = spriteset[SpriteIndex];
+				spriteRenderer.sprite = spriteset[currentAnimationIndex][CurrentFrameIndex];
 		}
 
 		private void ValidateAnimationIndex()

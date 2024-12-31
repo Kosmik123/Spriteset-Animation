@@ -21,11 +21,11 @@ namespace Bipolar.SpritesetAnimation.Editor
             var spritesProperty = serializedObject.FindProperty(SpritesPropertyName);
 
             var columnsProperty = serializedObject.FindProperty(SpritesetEditorUtility.ColumnCountPropertyName);
-            int columnCount = columnsProperty.intValue;
+            int columnCount = columnsProperty?.intValue ?? 1;
             int spritesCount = spritesProperty.arraySize;
 
             EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
-            bool hasChanged = DrawSpritesGrid(columnCount, spritesCount, spritesProperty.GetArrayElementAtIndex);
+            bool hasChanged = false; // DrawSpritesGrid(columnCount, spritesCount, spritesProperty.GetArrayElementAtIndex);
             if (hasChanged)
                 serializedObject.ApplyModifiedProperties();
             
