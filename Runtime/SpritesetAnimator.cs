@@ -97,9 +97,14 @@ namespace Bipolar.SpritesetAnimation
 		public int CurrentFrameIndex => baseFrameIndex + frameIndexOffset;
 		public int SpriteIndex => currentAnimationIndex * spriteset.ColumnCount + CurrentFrameIndex;
 
-		public int CurrentSequenceLength => overrideSequenceLength > 0
-			? Mathf.Min(overrideSequenceLength, spriteset.Count - currentAnimationIndex * spriteset.ColumnCount)
-			: spriteset.ColumnCount;
+		public int CurrentSequenceLength => GetSequenceLength(currentAnimationIndex);
+
+		private int GetSequenceLength(int animationIndex)
+		{
+			return overrideSequenceLength > 0
+				? Mathf.Min(overrideSequenceLength, spriteset.Count - animationIndex * spriteset.ColumnCount)
+				: spriteset.ColumnCount;
+		}
 
 		public int RowCount => spriteset ? spriteset.RowCount : 0;
 
@@ -148,22 +153,32 @@ namespace Bipolar.SpritesetAnimation
 
 		public void PlayAnimationOnce(System.Action onFinished = null)
 		{
-			isAnimating = false;
-			StopAllCoroutines();
-			StartCoroutine(PlayAnimationOnceCo(onFinished));
+			PlayAnimationOnce(currentAnimationIndex, animationSpeed, onFinished);
 		}
 
 		public void PlayAnimationOnce(int animationIndex, System.Action onFinished = null)
 		{
-			currentAnimationIndex = animationIndex;
-			PlayAnimationOnce(onFinished);
+			PlayAnimationOnce(animationIndex, animationSpeed, onFinished);
+		}
+		
+		public void PlayAnimationOnce(System.Action onFinished, float speed)
+		{
+			PlayAnimationOnce(currentAnimationIndex, speed, onFinished);
 		}
 
-		private IEnumerator PlayAnimationOnceCo(System.Action onFinished)
+		public void PlayAnimationOnce(int animationIndex, float speed, System.Action onFinished = null)
 		{
-			var wait = new WaitForSeconds(1f / animationSpeed);
-			baseFrameIndex = isReversed ? CurrentSequenceLength - 1 : 0;
-			int endingFrameIndex = isReversed ? 0 : CurrentSequenceLength - 1;
+			isAnimating = false;
+			StopAllCoroutines();
+			StartCoroutine(PlayAnimationOnceCo(animationIndex, onFinished, speed));
+		}
+
+		private IEnumerator PlayAnimationOnceCo(int animationIndex, System.Action onFinished, float speed)
+		{
+			var wait = new WaitForSeconds(1f / speed);
+			int sequenceLength = GetSequenceLength(animationIndex);
+			baseFrameIndex = isReversed ? sequenceLength - 1 : 0;
+			int endingFrameIndex = isReversed ? 0 : sequenceLength - 1;
 			RefreshSprite();
 			while (true)
 			{
